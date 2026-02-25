@@ -40,7 +40,12 @@
     function initWidget() {
         const widgetHTML = `
         <button class="chat-toggler" onclick="toggleChat()">
-            <svg class="icon-open" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="white"/><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="currentColor"/></svg>
+            <svg class="icon-open" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"></path>
+                <circle cx="8" cy="10" r="1.3" fill="white"></circle>
+                <circle cx="12" cy="10" r="1.3" fill="white"></circle>
+                <circle cx="16" cy="10" r="1.3" fill="white"></circle>
+            </svg>
             <svg class="icon-close" style="display: none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
         <div class="chat-widget" id="chat-widget">
@@ -203,3 +208,4 @@
     document.head.appendChild(link);
 
 })();
+
