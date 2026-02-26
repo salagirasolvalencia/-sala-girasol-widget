@@ -12,28 +12,59 @@
 
     const MAX_MESSAGE_CHARS = 120;
 
-    // Conversión básica de Markdown a HTML seguro.
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
+    function renderInlineMarkdown(text) {
+        let html = escapeHtml(text);
+        html = html.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+        html = html.replace(/\*(?!\*)(.+?)\*(?!\*)/g, '<i>$1</i>');
+        return html;
+    }
+
+    // Conversión de Markdown ligero respetando saltos de párrafo y niveles de lista.
     function parseMarkdown(text) {
         if (!text) return "";
-        let html = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        
-        // Formato básico de negrita y cursiva.
-        html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-        html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
-        
-        // Listas con espaciado ajustado para legibilidad.
-        html = html.replace(/^\s*[-*]\s+(.*)$/gm, '<div style="margin-left: 15px; margin-bottom: 0px; line-height: 1.4;">• $1</div>');
-        
-        // Numeración con espaciado compacto.
-        html = html.replace(/^\s*(\d+\.)\s+(.*)$/gm, '<div style="margin-top: 6px; margin-bottom: 0px; line-height: 1.4;"><b>$1</b> $2</div>');
-        
-        // Normaliza saltos de línea tras elementos de lista.
-        html = html.replace(/<\/div>\s*\n/g, '</div>');
-        
-        // Convierte el resto de saltos de línea en <br>.
-        html = html.replace(/\n/g, '<br>');
-        
-        return html;
+
+        const lines = text.replace(/\r\n?/g, "\n").split("\n");
+        const chunks = [];
+
+        for (const line of lines) {
+            if (!line.trim()) {
+                chunks.push('<div class="md-blank"></div>');
+                continue;
+            }
+
+            const bulletMatch = line.match(/^(\s*)[-*]\s+(.+)$/);
+            if (bulletMatch) {
+                const indentSpaces = bulletMatch[1].replace(/\t/g, "    ").length;
+                const level = Math.floor(indentSpaces / 2);
+                const marginLeft = 14 + (level * 14);
+                chunks.push(
+                    `<div class="md-list-item" style="margin-left:${marginLeft}px;">• ${renderInlineMarkdown(bulletMatch[2])}</div>`
+                );
+                continue;
+            }
+
+            const orderedMatch = line.match(/^(\s*)(\d+)\.\s+(.+)$/);
+            if (orderedMatch) {
+                const indentSpaces = orderedMatch[1].replace(/\t/g, "    ").length;
+                const level = Math.floor(indentSpaces / 2);
+                const marginLeft = 14 + (level * 14);
+                chunks.push(
+                    `<div class="md-list-item" style="margin-left:${marginLeft}px;"><b>${orderedMatch[2]}.</b> ${renderInlineMarkdown(orderedMatch[3])}</div>`
+                );
+                continue;
+            }
+
+            chunks.push(`<div class="md-line">${renderInlineMarkdown(line)}</div>`);
+        }
+
+        return chunks.join("");
     }
 
     // Inicialización del widget y bindings.
@@ -208,5 +239,3 @@
     document.head.appendChild(link);
 
 })();
-
-
