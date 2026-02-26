@@ -1,4 +1,4 @@
-﻿/* Fuente moderna */
+/* Tipografía base */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 :root {
@@ -17,7 +17,7 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-/* BOTON FLOTANTE */
+/* Botón flotante del widget */
 .chat-toggler {
     position: fixed;
     bottom: 30px;
@@ -47,7 +47,7 @@ body {
     height: 30px;
 }
 
-/* VENTANA DEL CHAT */
+/* Contenedor principal del chat */
 .chat-widget {
     position: fixed;
     bottom: 100px;
@@ -67,7 +67,7 @@ body {
     z-index: 9999; /* Z-index alto */
 }
 
-/* Clase para abrir el chat */
+/* Estado visible del chat */
 body.show-chat .chat-widget {
     opacity: 1;
     pointer-events: auto;
@@ -77,7 +77,7 @@ body.show-chat .chat-widget {
 body.show-chat .icon-open { display: none; }
 body.show-chat .icon-close { display: block; }
 
-/* HEADER */
+/* Cabecera */
 .chat-header {
     background: linear-gradient(135deg, var(--brand-deep), var(--brand-mid));
     padding: 20px;
@@ -91,7 +91,7 @@ body.show-chat .icon-close { display: block; }
 .chat-header p { margin: 2px 0 0; font-size: 12px; opacity: 0.9; }
 .close-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
 
-/* CUERPO MENSAJES */
+/* Área de mensajes */
 .chat-body {
     flex: 1;
     padding: 20px;
@@ -128,7 +128,20 @@ body.show-chat .icon-close { display: block; }
     border-bottom-left-radius: 2px;
 }
 
-/* INPUT AREA */
+.bubble .md-line {
+    line-height: 1.45;
+}
+
+.bubble .md-list-item {
+    line-height: 1.45;
+    margin: 2px 0;
+}
+
+.bubble .md-blank {
+    height: 8px;
+}
+
+/* Área de entrada */
 .chat-footer {
     padding: 15px;
     background: var(--surface);
@@ -204,5 +217,4 @@ body.show-chat .icon-close { display: block; }
         max-width: 85%;
     }
 }
-
 
